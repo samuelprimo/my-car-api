@@ -23,7 +23,7 @@ def get_users(request):
     
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET'])
+@api_view(['GET', 'PUT'])
 def get_by_modelo(request, modelo):
 
     try:
@@ -35,10 +35,24 @@ def get_by_modelo(request, modelo):
 
         serializer = VeiculoSerializer(veiculos)
         return Response(serializer.data)  
+    
+    if request.method == 'PUT':
 
+        serializer = VeiculoSerializer(veiculos, data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+#CRUD BOLADO
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
 def veiculo_manager(request):
+
+    #ACESSOS
+
     if request.method == 'GET':
         try:
             if 'placa' in request.GET:
@@ -55,9 +69,43 @@ def veiculo_manager(request):
                 return Response(serializer.data)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    #CRIAR DADOS
+
+    elif request.method == 'POST':
+        serializer = VeiculoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    #EDITAR DADOS
+
+    elif request.method == 'PUT':
+        try:
+            veiculo = Veiculo.objects.get(pk=request.data['placa'])
+        except Veiculo.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        serializer = VeiculoSerializer(veiculo, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    
-    
+    #DELETAR DADOS
+
+    elif request.method == 'DELETE':
+        try:
+            veiculo = Veiculo.objects.get(pk=request.data['placa'])
+        except Veiculo.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        veiculo.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+        
+
+
 
 
 
