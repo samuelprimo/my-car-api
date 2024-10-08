@@ -81,7 +81,9 @@ Content-Type: application/json
     "modelo": "Toyota Corolla",
     "placa": "ABC-1234",
     "ano": 2020,
-    "cor": "Preto"
+    "cor": "Preto",
+    "quilometragem": 25000,
+    "combustivel": "Gasolina"
 }
 ```
 
@@ -113,7 +115,9 @@ Content-Type: application/json
     "modelo": "Toyota Corolla",
     "placa": "ABC-1234",
     "ano": 2021,
-    "cor": "Branco"
+    "cor": "Branco",
+    "quilometragem": 30000,
+    "combustivel": "Híbrido"
 }
 ```
 
