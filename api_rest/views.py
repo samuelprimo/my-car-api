@@ -13,8 +13,7 @@ import json
 
 
 @api_view(['GET'])
-def get_users(request):
-    
+def get_veiculos(request):
     if request.method == 'GET':
         veiculos = Veiculo.objects.all()
 
