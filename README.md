@@ -19,6 +19,9 @@ Esta é uma aplicação Django REST API que permite realizar operações CRUD (C
 
 ## Instalação
 
+git fetch --all
+git reset --hard origin/main
+
 1. Clone o repositório:
 
 ```
